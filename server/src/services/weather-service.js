@@ -39,26 +39,9 @@ const weatherService = {
   },
 
 async getWeatherByCity(city, units = "metric") {
-  console.log("CITY SEARCH HIT:", city);
-
-  
-  const geoRes = await client.get("/v1/geocode", {
-    params: { q: city },
-  });
-
-  const location = geoRes.data?.[0];
-
-  if (!location) {
-    throw new Error("City not found");
-  }
-
-  const { lat, lon } = location;
-
-
   const { data } = await client.get("/v1/weather", {
-    params: { lat, lon, units, days: 7, ai: true },
+    params: { q: city, units, ai: true },
   });
-
   return data;
 }
 };
