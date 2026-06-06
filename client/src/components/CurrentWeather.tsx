@@ -1,16 +1,25 @@
-import type { CurrentWeather as CurrentWeatherType, Location } from '../types/weather';
+import type {
+  CurrentWeather as CurrentWeatherType,
+  Location,
+} from "../types/weather";
 
 interface CurrentWeatherProps {
   current: CurrentWeatherType;
   location: Location;
   cityName?: string;
-  units: 'metric' | 'imperial';
+  units: "metric" | "imperial";
 }
 
-export default function CurrentWeather({ current, location, cityName, units }: CurrentWeatherProps) {
-  const tempUnit = units === 'metric' ? '°C' : '°F';
-  const windUnit = units === 'metric' ? 'km/h' : 'mph';
-  const displayName = cityName || `${location.lat.toFixed(2)}, ${location.lon.toFixed(2)}`;
+export default function CurrentWeather({
+  current,
+  location,
+  cityName,
+  units,
+}: CurrentWeatherProps) {
+  const tempUnit = units === "metric" ? "°C" : "°F";
+  const windUnit = units === "metric" ? "km/h" : "mph";
+  const displayName =
+    cityName || `${location.lat.toFixed(2)}, ${location.lon.toFixed(2)}`;
 
   const uvIndex = current.uv_index ?? 0;
   const humidity = current.humidity ?? 0;
@@ -18,32 +27,32 @@ export default function CurrentWeather({ current, location, cityName, units }: C
   const windGust = current.wind_gust ?? 0;
 
   const time = new Date(current.time).toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
+    hour: "2-digit",
+    minute: "2-digit",
   });
 
   const getUvLabel = (uv: number) => {
-    if (uv <= 2) return { label: 'Low', color: 'text-green-400' };
-    if (uv <= 5) return { label: 'Moderate', color: 'text-yellow-400' };
-    if (uv <= 7) return { label: 'High', color: 'text-orange-400' };
-    if (uv <= 10) return { label: 'Very High', color: 'text-red-400' };
-    return { label: 'Extreme', color: 'text-purple-400' };
+    if (uv <= 2) return { label: "Low", color: "text-green-400" };
+    if (uv <= 5) return { label: "Moderate", color: "text-yellow-400" };
+    if (uv <= 7) return { label: "High", color: "text-orange-400" };
+    if (uv <= 10) return { label: "Very High", color: "text-red-400" };
+    return { label: "Extreme", color: "text-purple-400" };
   };
 
   const uv = getUvLabel(uvIndex);
 
   const stats = [
-    { icon: '💧', value: `${humidity}%`, label: 'Humidity' },
-    { icon: '💨', value: `${current.wind_speed} ${windUnit}`, label: 'Wind' },
-    { icon: '🌬️', value: `${windGust} ${windUnit}`, label: 'Gusts' },
+    { icon: "💧", value: `${humidity}%`, label: "Humidity" },
+    { icon: "💨", value: `${current.wind_speed} ${windUnit}`, label: "Wind" },
+    { icon: "🌬️", value: `${windGust} ${windUnit}`, label: "Gusts" },
     {
-      icon: '☀️',
+      icon: "☀️",
       value: (
         <span className={uv.color}>
           {uvIndex.toFixed(1)} · {uv.label}
         </span>
       ),
-      label: 'UV Index',
+      label: "UV Index",
     },
   ];
 
@@ -53,7 +62,8 @@ export default function CurrentWeather({ current, location, cityName, units }: C
         <div>
           <h2 className="text-xl font-bold">{displayName}</h2>
           <p className="text-xs text-[#8b91a8] mt-1">
-            {location.timezone } · Updated {time}
+            {`${cityName ?? ""} ${location.country}`.trim()} · Updated{" "}
+            {time}{" "}
           </p>
         </div>
         <img
@@ -65,16 +75,21 @@ export default function CurrentWeather({ current, location, cityName, units }: C
 
       <div className="mb-5">
         <span className="text-7xl font-extrabold bg-linear-to-br from-white to-[#5b8dee] bg-clip-text text-transparent">
-          {Math.round(current.temperature)}{tempUnit}
+          {Math.round(current.temperature)}
+          {tempUnit}
         </span>
         <p className="text-sm text-[#8b91a8] mt-2">
-          Feels like {Math.round(feelsLike)}{tempUnit}
+          Feels like {Math.round(feelsLike)}
+          {tempUnit}
         </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         {stats.map((s, i) => (
-          <div key={i} className="bg-[#21253a] rounded-xl p-3 flex flex-col gap-1">
+          <div
+            key={i}
+            className="bg-[#21253a] rounded-xl p-3 flex flex-col gap-1"
+          >
             <span className="text-lg">{s.icon}</span>
             <span className="text-sm font-semibold">{s.value}</span>
             <span className="text-xs text-[#8b91a8]">{s.label}</span>
