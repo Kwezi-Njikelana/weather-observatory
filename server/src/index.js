@@ -6,7 +6,7 @@ const weatherRoutes = require('./routes/weather');
 const errorHandler = require('./middleware/error-handler');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }));
 app.use(express.json());
