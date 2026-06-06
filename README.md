@@ -56,3 +56,4 @@ Open [http://localhost:5173](http://localhost:5173)
 | `VITE_API_URL` | Backend URL (default: `http://localhost:3001/api`) |
 
 ## Live Demo
+https://weather-observatory.vercel.app/
