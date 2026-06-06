@@ -16,24 +16,35 @@ export function useWeather() {
   });
 
   const [units, setUnits] = useState<'metric' | 'imperial'>('metric');
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [hasSearched, setHasSearched] = useState(false);
 
-  const searchByCity = useCallback(
-    async (city: string) => {
-      setState({ data: null, loading: true, error: null });
-      try {
-        const data = await fetchWeatherByCity(city, units);
-        setState({ data, loading: false, error: null });
-      } catch (err: unknown) {
-        const message =
-          err instanceof Error ? err.message : 'Failed to fetch weather data';
-        setState({ data: null, loading: false, error: message });
-      }
-    },
-    [units]
-  );
+const searchByCity = useCallback(
+  async (city: string) => {
+     setHasSearched(true); 
+    setSelectedCity(city); 
+
+    setState({ data: null, loading: true, error: null });
+
+    try {
+      const data = await fetchWeatherByCity(city, units);
+      setState({ data, loading: false, error: null });
+    } catch (err: any) {
+      const message =
+        err?.response?.data?.error ||
+        err?.response?.data?.message ||
+        err.message ||
+        'Failed to fetch weather data';
+
+      setState({ data: null, loading: false, error: message });
+    }
+  },
+  [units]
+);
 
   const searchByCoords = useCallback(
     async (lat: number, lon: number) => {
+        if (hasSearched) return;
       setState({ data: null, loading: true, error: null });
       try {
         const data = await fetchWeatherByCoords(lat, lon, units);
@@ -44,7 +55,7 @@ export function useWeather() {
         setState({ data: null, loading: false, error: message });
       }
     },
-    [units]
+    [units, hasSearched]
   );
 
   const toggleUnits = useCallback(() => {
@@ -57,5 +68,6 @@ export function useWeather() {
     toggleUnits,
     searchByCity,
     searchByCoords,
+    selectedCity
   };
 }

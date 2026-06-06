@@ -7,7 +7,7 @@ import HourlyChart from './components/HourlyChart';
 import { useWeather } from './hooks/useWeather';
 
 export default function App() {
-  const { data, loading, error, units, toggleUnits, searchByCity, searchByCoords } =
+  const { data, loading, error, units, toggleUnits, searchByCity, searchByCoords, selectedCity, } =
     useWeather();
 
   useEffect(() => {
@@ -19,11 +19,9 @@ export default function App() {
     } else {
       searchByCity('Nairobi');
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); 
 
-  const cityName = data?.ip_geo?.city
-    ? `${data.ip_geo.city}, ${data.ip_geo.country}`
-    : undefined;
+ const cityName = selectedCity ?? undefined;
 
   return (
     <div className="min-h-screen bg-[#0f1117] text-[#e8eaf0] font-sans">

@@ -53,7 +53,7 @@ export default function CurrentWeather({ current, location, cityName, units }: C
         <div>
           <h2 className="text-xl font-bold">{displayName}</h2>
           <p className="text-xs text-[#8b91a8] mt-1">
-            {location.timezone} · Updated {time}
+            {location.timezone } · Updated {time}
           </p>
         </div>
         <img
