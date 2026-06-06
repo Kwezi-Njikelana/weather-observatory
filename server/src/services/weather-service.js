@@ -39,6 +39,7 @@ const weatherService = {
   },
 
 async getWeatherByCity(city, units = "metric") {
+  console.log("CITY SEARCH HIT:", city);
   const { data } = await client.get("/v1/weather", {
     params: { q: city, units, ai: true },
   });
