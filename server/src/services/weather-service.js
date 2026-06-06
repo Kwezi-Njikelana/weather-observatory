@@ -37,12 +37,12 @@ const weatherService = {
     });
     return data;
   },
-  
-  async getWeatherByCity(city, units = "metric") {
-    const { data } = await client.get("/v1/weather-geo", {
-      params: { city, units, ai: true },
-    });
-    return data;
-  },
+
+async getWeatherByCity(city, units = "metric") {
+  const { data } = await client.get("/v1/weather", {
+    params: { q: city, units, ai: true },
+  });
+  return data;
+}
 };
 module.exports = weatherService;
