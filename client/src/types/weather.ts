@@ -14,10 +14,10 @@ export interface CurrentWeather {
   wind_direction: number;
   condition_code: string;
   icon: string;
-  humidity: number;
-  feels_like: number;
-  uv_index: number;
-  wind_gust: number;
+  humidity?: number;
+  feels_like?: number;
+  uv_index?: number;
+  wind_gust?: number;
   icon_path: string;
 }
 
