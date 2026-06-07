@@ -1,6 +1,6 @@
 # weather-observatory
 A smart weather dashboard powered by the [WeatherAI API](https://weather-ai.co/docs).  
-Search any city to see current conditions, a 7-day forecast, and an AI-generated weather summary.
+Search any city to see current conditions a 7-day forecast.
 
 ## Tech Stack
 
