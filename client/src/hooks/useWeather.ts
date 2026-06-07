@@ -31,6 +31,7 @@ const searchByCity = useCallback(
       setState({ data, loading: false, error: null });
     } catch (err: any) {
       const message =
+        err?.response?.data?.error?.message ||
         err?.response?.data?.error ||
         err?.response?.data?.message ||
         err.message ||

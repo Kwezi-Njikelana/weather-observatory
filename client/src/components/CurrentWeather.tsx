@@ -19,16 +19,22 @@ export default function CurrentWeather({
   const tempUnit = units === "metric" ? "°C" : "°F";
   const windUnit = units === "metric" ? "km/h" : "mph";
   const displayName =
-    cityName || `${location.lat.toFixed(2)}, ${location.lon.toFixed(2)}`;
+    location.name ||
+    cityName ||
+    `${location.lat.toFixed(2)}, ${location.lon.toFixed(2)}`;
 
   const uvIndex = current.uv_index ?? 0;
   const humidity = current.humidity ?? 0;
   const feelsLike = current.feels_like ?? current.temperature;
   const windGust = current.wind_gust ?? 0;
+  const subtitleLocation = [location.name ?? cityName, location.country]
+    .filter(Boolean)
+    .join(", ");
 
   const time = new Date(current.time).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: location.timezone,
   });
 
   const getUvLabel = (uv: number) => {
@@ -62,8 +68,7 @@ export default function CurrentWeather({
         <div>
           <h2 className="text-xl font-bold">{displayName}</h2>
           <p className="text-xs text-[#8b91a8] mt-1">
-            {`${cityName ?? ""} ${location.country}`.trim()} · Updated{" "}
-            {time}{" "}
+            {subtitleLocation} · {location.timezone} · Updated {time}
           </p>
         </div>
         <img
